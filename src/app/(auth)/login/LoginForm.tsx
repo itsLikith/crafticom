@@ -1,7 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
+import Crafticom from '../../Crafticom.png';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -10,8 +12,17 @@ export default function LoginForm() {
     <div className="flex flex-col items-center w-full">
       {/* Logo */}
       <div className="flex items-center mb-4">
-        <div className="w-7 h-7 rounded-full bg-[#e0d7d0] mr-2" />
-        <span className="font-bold text-xl text-black">LOGO</span>
+        <div className="mb-2 w-full flex justify-center">
+          <Image
+            src={Crafticom}
+            alt="Crafticom Logo"
+            width={200}
+            height={50}
+            priority
+            className="object-contain h-auto w-32 sm:w-44 md:w-56"
+            style={{ maxWidth: '100%' }}
+          />
+        </div>
       </div>
       <h2 className="text-3xl font-bold text-[#c97b4d] mb-1 text-center">
         Welcome Back
@@ -64,7 +75,10 @@ export default function LoginForm() {
               Remember me
             </label>
           </div>
-          <Link href='/forgotpassword' className="text-[#a97b4d] font-medium hover:underline">
+          <Link
+            href="/forgotpassword"
+            className="text-[#a97b4d] font-medium hover:underline"
+          >
             Forgot Password?
           </Link>
         </div>
@@ -111,7 +125,10 @@ export default function LoginForm() {
       </form>
       <div className="text-center mt-6 text-[#a97b4d]">
         Don’t have an account?{' '}
-        <Link href="/signup" className="font-bold text-[#c97b4d] hover:underline">
+        <Link
+          href="/signup"
+          className="font-bold text-[#c97b4d] hover:underline"
+        >
           Create an account
         </Link>
       </div>

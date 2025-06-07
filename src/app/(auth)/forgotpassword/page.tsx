@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import ForgotPasswordForm from './ForgotPasswordForm';
 
 export default function ForgotPasswordPage() {
@@ -11,24 +12,33 @@ export default function ForgotPasswordPage() {
               viewBox="0 0 400 320"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="absolute w-full h-full"
+              className="absolute w-full h-full pointer-events-none"
             >
               <path
+                id="clip-shape"
                 d="M60,40 Q200,0 340,40 Q400,120 340,240 Q200,320 60,240 Q0,120 60,40 Z"
                 fill="#fff7ef"
                 stroke="#e7a77a"
                 strokeWidth="8"
               />
+              <clipPath id="svgClip">
+                <use href="#clip-shape" />
+              </clipPath>
             </svg>
-            <img
-              src="/login-craft.jpg"
-              alt="Craft supplies"
-              className="absolute w-[90%] h-[90%] object-cover rounded-[60px] z-10"
-              style={{
-                clipPath:
-                  "path('M60,40 Q200,0 340,40 Q400,120 340,240 Q200,320 60,240 Q0,120 60,40 Z')",
-              }}
-            />
+            <div
+              className="absolute w-[90%] h-[90%] z-10"
+              style={{ clipPath: 'url(#svgClip)' }}
+            >
+              <Image
+                src=""
+                alt="Craft supplies"
+                fill
+                className="object-cover rounded-[60px]"
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
+            </div>
           </div>
         </div>
         {/* Right: Form */}

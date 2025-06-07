@@ -2,7 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Alert, AlertDescription, AlertTitle } from "../../../components/ui/alert";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '../../../components/ui/alert';
+import Image from 'next/image';
+
+import Crafticom from '../../Crafticom.png';
 
 export default function ForgotPasswordForm() {
   const [step, setStep] = useState<'email' | 'otp' | 'reset'>('email');
@@ -57,9 +64,16 @@ export default function ForgotPasswordForm() {
   return (
     <div className="flex flex-col items-center w-full">
       {/* Logo */}
-      <div className="flex items-center mb-2">
-        <div className="w-7 h-7 rounded-full bg-[#e0d7d0] mr-2" />
-        <span className="font-bold text-xl text-black">LOGO</span>
+      <div className="mb-2 w-full flex justify-center">
+        <Image
+          src={Crafticom}
+          alt="Crafticom Logo"
+          width={200}
+          height={50}
+          priority
+          className="object-contain h-auto w-32 sm:w-44 md:w-56"
+          style={{ maxWidth: '100%' }}
+        />
       </div>
       <h2 className="text-3xl font-bold text-[#c97b4d] mb-1 text-center">
         Forgot Password
