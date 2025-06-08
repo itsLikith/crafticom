@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import LoginForm from './LoginForm';
+import LoginImage from './login.png';
 
 export default function LoginPage() {
   return (
@@ -12,30 +13,9 @@ export default function LoginPage() {
         {/* Right: Image */}
         <div className="hidden md:flex flex-1 items-center justify-center relative p-8">
           <div className="relative w-full h-80 flex items-center justify-center">
-            <svg
-              viewBox="0 0 400 320"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="absolute w-full h-full pointer-events-none"
-            >
-              <path
-                d="M60,40 Q200,0 340,40 Q400,120 340,240 Q200,320 60,240 Q0,120 60,40 Z"
-                fill="#fff7ef"
-                stroke="#e7a77a"
-                strokeWidth="8"
-              />
-            </svg>
-            <div
-              className="absolute w-[90%] h-[90%] z-10"
-              style={{
-                WebkitClipPath:
-                  "path('M60,40 Q200,0 340,40 Q400,120 340,240 Q200,320 60,240 Q0,120 60,40 Z')",
-                clipPath:
-                  "path('M60,40 Q200,0 340,40 Q400,120 340,240 Q200,320 60,240 Q0,120 60,40 Z')",
-              }}
-            >
+            <div className="absolute w-[90%] h-[90%] z-10">
               <Image
-                src="/login-craft.jpg"
+                src={LoginImage}
                 alt="Craft supplies"
                 fill
                 className="object-cover rounded-[60px]"
