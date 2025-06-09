@@ -38,9 +38,10 @@ export default function LoginForm() {
         window.location.href = '/artisan/home';
         return;
       }
-    } catch (_error) {
+    } catch (error) {
       setError('Something went wrong. Please try again.');
       setLoading(false);
+      console.error('Login error:', error);
     }
   };
 
