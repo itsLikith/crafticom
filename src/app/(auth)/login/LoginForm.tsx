@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Crafticom from '../../Crafticom.png';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -13,7 +12,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
