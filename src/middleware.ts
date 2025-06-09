@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from './lib/jwt';
+import type { JWTPayload } from './types/JWTPayload';
 
 export function middleware(request: NextRequest) {
   const token =
@@ -18,7 +19,7 @@ export function middleware(request: NextRequest) {
   }
 
   try {
-    const user: any = verifyToken(token);
+    const user = verifyToken(token) as JWTPayload;
 
     // If user is on login or signup and already authenticated, redirect to their home
     if (

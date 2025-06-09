@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // <-- Use next/navigation for app router
 import Crafticom from '../../Crafticom.png';
 
 export default function LoginForm() {
@@ -12,7 +11,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +38,7 @@ export default function LoginForm() {
         window.location.href = '/artisan/home'; // <-- Use full reload
         return;
       }
-    } catch (err) {
+    } catch (error) {
       setError('Something went wrong. Please try again.');
       setLoading(false);
     }

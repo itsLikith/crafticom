@@ -4,7 +4,7 @@ import LoginImage from './login.png';
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[url('/bg-craft.jpg')] bg-cover bg-center bg-no-repeat px-2 py-6">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[url('/background.png')] bg-cover bg-center bg-no-repeat px-2 py-6">
       <div className="w-full max-w-4xl bg-gradient-to-br from-[#ffe5d0] to-[#fff7ef] rounded-3xl shadow-2xl flex flex-col md:flex-row items-stretch overflow-hidden">
         {/* Left: Form */}
         <div className="flex-1 flex flex-col justify-center px-6 py-8 md:px-12">

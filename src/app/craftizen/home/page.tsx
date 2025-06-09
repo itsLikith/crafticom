@@ -116,7 +116,7 @@ export default function Page() {
                 />
               </div>
               <p className="text-xs text-center text-[#3B2F1D] mb-1">
-                "Lorem Ipsum Dolor Sit Amet Ullamcorper Nisi Metus Mattis."
+                &ldquo;Lorem Ipsum Dolor Sit Amet Ullamcorper Nisi Metus Mattis.&rdquo;
               </p>
               <span className="text-xs text-[#D97B3E] font-semibold">
                 - Name
@@ -129,7 +129,7 @@ export default function Page() {
       {/* Today's Special Offers */}
       <section className="px-4 py-8">
         <h2 className="text-2xl font-bold text-[#D97B3E] mb-6 text-center">
-          Today's Special Offers
+          Today&apos;s Special Offers
         </h2>
         <div className="flex flex-col md:flex-row gap-6 justify-center">
           <div className="bg-[#FFD600] rounded-2xl p-6 flex-1 flex flex-col items-center shadow">
