@@ -32,13 +32,13 @@ export default function LoginForm() {
       const data = await res.json();
       setLoading(false);
       if (data.user.role === 'craftizen') {
-        window.location.href = '/craftizen/home'; // <-- Use full reload
+        window.location.href = '/craftizen/home';
         return;
       } else if (data.user.role === 'artisan') {
-        window.location.href = '/artisan/home'; // <-- Use full reload
+        window.location.href = '/artisan/home';
         return;
       }
-    } catch (error) {
+    } catch (_error) {
       setError('Something went wrong. Please try again.');
       setLoading(false);
     }
