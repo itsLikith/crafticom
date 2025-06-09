@@ -116,7 +116,8 @@ export default function Page() {
                 />
               </div>
               <p className="text-xs text-center text-[#3B2F1D] mb-1">
-                &ldquo;Lorem Ipsum Dolor Sit Amet Ullamcorper Nisi Metus Mattis.&rdquo;
+                &ldquo;Lorem Ipsum Dolor Sit Amet Ullamcorper Nisi Metus
+                Mattis.&rdquo;
               </p>
               <span className="text-xs text-[#D97B3E] font-semibold">
                 - Name

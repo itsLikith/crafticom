@@ -1,51 +1,64 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from './lib/jwt';
-import type { JWTPayload } from './types/JWTPayload';
+import type { JWTPayload } from 'jose';
 
-export function middleware(request: NextRequest) {
-  const token =
-    request.cookies.get('token')?.value ||
-    request.headers.get('Authorization')?.replace('Bearer ', '');
+export default async function middleware(request: NextRequest) {
+  const token = request.cookies.get('token')?.value;
+  const { pathname } = request.nextUrl;
 
-  // If no token, redirect to login for protected routes
-  if (!token) {
-    if (
-      request.nextUrl.pathname.startsWith('/craftizen') ||
-      request.nextUrl.pathname.startsWith('/artisan')
-    ) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-    return NextResponse.next();
-  }
+  const authRoutes = ['/login', '/signup', '/'];
+  const isAuthRoute = authRoutes.includes(pathname);
+  const isProtectedRoute =
+    pathname.startsWith('/craftizen') || pathname.startsWith('/artisan');
 
   try {
-    const user = verifyToken(token) as JWTPayload;
+    if (token) {
+      const user = (await verifyToken(token)) as JWTPayload;
 
-    // If user is on login or signup and already authenticated, redirect to their home
-    if (
-      request.nextUrl.pathname === '/login' ||
-      request.nextUrl.pathname === '/signup' ||
-      request.nextUrl.pathname === '/'
-    ) {
-      if (user.role === 'craftizen') {
-        return NextResponse.redirect(new URL('/craftizen/home', request.url));
+      if (isAuthRoute) {
+        let redirectUrl = '/';
+        if (user.role === 'craftizen') {
+          redirectUrl = '/craftizen/home';
+        } else if (user.role === 'artisan') {
+          redirectUrl = '/artisan/home';
+        } else if (user.role === 'admin') {
+          redirectUrl = '/admin/dashboard';
+        }
+        return NextResponse.redirect(new URL(redirectUrl, request.url));
       }
-      if (user.role === 'artisan') {
-        return NextResponse.redirect(new URL('/artisan/home', request.url));
+
+      const isCraftizenAccessingArtisan =
+        user.role === 'craftizen' && pathname.startsWith('/artisan');
+      const isArtisanAccessingCraftizen =
+        user.role === 'artisan' && pathname.startsWith('/craftizen');
+
+      if (isCraftizenAccessingArtisan || isArtisanAccessingCraftizen) {
+        return NextResponse.redirect(new URL('/login', request.url));
       }
+
+      return NextResponse.next();
     }
 
-    // Allow access to protected routes
+    if (isProtectedRoute) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+
     return NextResponse.next();
-  } catch {
-    // Invalid token, redirect to login
-    return NextResponse.redirect(new URL('/login', request.url));
+  } catch (error) {
+    console.error('Token verification failed:', error);
+    const response = NextResponse.redirect(new URL('/login', request.url));
+    response.cookies.delete('token');
+    return response;
   }
 }
 
 export const config = {
   matcher: [
-    // Protect everything except login, signup, api, _next, static, favicon.ico, and the root landing page
-    '/((?!login|signup|forgotpassword|api|_next|static|favicon.ico$|$).*)',
+    '/craftizen/:path*',
+    '/artisan/:path*',
+    '/admin/:path*',
+    '/login',
+    '/signup',
+    '/',
   ],
 };

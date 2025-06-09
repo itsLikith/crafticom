@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import Crafticom from '../../Crafticom.png';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -11,37 +13,60 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
     try {
-      const res = await fetch('/api/user/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, remember }),
-        credentials: 'include',
+      const response = await axios.post('/api/auth/login', {
+        email,
+        password,
+        remember,
       });
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || data.message || 'Login failed');
-        setLoading(false);
-        return;
-      }
-      const data = await res.json();
-      setLoading(false);
-      if (data.user.role === 'craftizen') {
+
+      console.log('Login response:', response.data);
+
+      // Check user role and redirect accordingly
+      if (response.data?.user?.role === 'craftizen') {
+        console.log('Redirecting to craftizen home...');
+        // Use window.location.href for hard redirect
         window.location.href = '/craftizen/home';
-        return;
-      } else if (data.user.role === 'artisan') {
+      } else if (response.data?.user?.role === 'artisan') {
+        console.log('Redirecting to artisan home...');
+        // Use window.location.href for hard redirect
         window.location.href = '/artisan/home';
-        return;
+      } else {
+        setError('Invalid user role received');
       }
     } catch (error) {
-      setError('Something went wrong. Please try again.');
-      setLoading(false);
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.data?.message ||
+            'Login failed. Please check your credentials.',
+        );
+      } else {
+        setError('An unexpected error occurred.');
+      }
       console.error('Login error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      // Implement Google login logic here
+      const response = await axios.get('/api/auth/google');
+      window.location.href = response.data.url;
+    } catch (error) {
+      setError('Failed to initialize Google login');
+      console.error('Google login error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -142,9 +167,11 @@ export default function LoginForm() {
         </div>
         <button
           type="button"
+          onClick={handleGoogleLogin}
+          disabled={loading}
           className="w-full flex items-center justify-center gap-2 bg-[#c97b4d] hover:bg-[#b06a3d] text-white font-bold text-lg rounded-xl py-2 transition-colors"
         >
-          Login with Google
+          {loading ? 'Processing...' : 'Login with Google'}
           <span className="ml-2">
             {/* Google SVG */}
             <svg width="22" height="22" viewBox="0 0 48 48">
