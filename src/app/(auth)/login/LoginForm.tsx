@@ -3,10 +3,48 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // <-- Use next/navigation for app router
 import Crafticom from '../../Crafticom.png';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, remember }),
+        credentials: 'include',
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || data.message || 'Login failed');
+        setLoading(false);
+        return;
+      }
+      const data = await res.json();
+      setLoading(false);
+      if (data.user.role === 'craftizen') {
+        window.location.href = '/craftizen/home'; // <-- Use full reload
+        return;
+      } else if (data.user.role === 'artisan') {
+        window.location.href = '/artisan/home'; // <-- Use full reload
+        return;
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -30,7 +68,7 @@ export default function LoginForm() {
       <p className="text-center text-[#a97b4d] mb-6">
         Glad to see you again. Select method to log in
       </p>
-      <form className="space-y-4 mt-2 w-full">
+      <form className="space-y-4 mt-2 w-full" onSubmit={handleSubmit}>
         <div>
           <label
             htmlFor="email"
@@ -43,6 +81,9 @@ export default function LoginForm() {
             type="email"
             placeholder="Enter your email ID"
             className="w-full px-4 py-3 border border-[#c97b4d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c97b4d] bg-transparent text-base"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -57,6 +98,9 @@ export default function LoginForm() {
             type="password"
             placeholder="Enter your Password"
             className="w-full px-4 py-3 border border-[#c97b4d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c97b4d] bg-transparent text-base"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <div className="flex items-center justify-between">
@@ -82,11 +126,15 @@ export default function LoginForm() {
             Forgot Password?
           </Link>
         </div>
+        {error && (
+          <div className="text-red-500 text-center font-medium">{error}</div>
+        )}
         <button
           type="submit"
           className="w-full bg-[#c97b4d] hover:bg-[#b06a3d] text-white text-lg font-bold rounded-xl py-2 mt-2 transition-colors"
+          disabled={loading}
         >
-          Sign in
+          {loading ? 'Signing in...' : 'Sign in'}
         </button>
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-[#c97b4d]" />

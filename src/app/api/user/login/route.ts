@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '../../../../lib/mongodb';
 import User from '../../../../models/User';
 import argon2 from 'argon2';
+import { signToken } from '../../../../lib/jwt';
 
 export async function POST(req: Request) {
   try {
@@ -21,11 +22,47 @@ export async function POST(req: Request) {
         { status: 401 },
       );
     }
-    return NextResponse.json({ message: 'Login successful' });
-  } catch (error: any) {
-    console.error(error);
+
+    // Sign JWT with user data
+    const token = signToken({
+      id: user._id,
+      email: user.email,
+      role: user.role,
+      name: user.name,
+    });
+
+    // Set JWT as HTTP-only cookie
+    const response = NextResponse.json(
+      {
+        message: 'Login successful',
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+          name: user.name,
+        },
+      },
+      { status: 200 },
+    );
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24, // 1 day
+    });
+
+    return response;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: 'Internal Server Error', details: error.message },
+        { status: 500 },
+      );
+    }
     return NextResponse.json(
-      { error: 'Internal Server Error', details: error.message },
+      { error: 'Internal Server Error' },
       { status: 500 },
     );
   }

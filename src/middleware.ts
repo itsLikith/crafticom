@@ -6,13 +6,39 @@ export function middleware(request: NextRequest) {
     request.cookies.get('token')?.value ||
     request.headers.get('Authorization')?.replace('Bearer ', '');
 
-  if (!token) return NextResponse.redirect(new URL('/login', request.url));
+  // If no token, redirect to login for protected routes
+  if (!token) {
+    if (
+      request.nextUrl.pathname.startsWith('/craftizen') ||
+      request.nextUrl.pathname.startsWith('/artisan')
+    ) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    return NextResponse.next();
+  }
 
   try {
-    verifyToken(token);
+    const user: any = verifyToken(token);
+
+    // If user is on login or signup and already authenticated, redirect to their home
+    if (
+      request.nextUrl.pathname === '/login' ||
+      request.nextUrl.pathname === '/signup' ||
+      request.nextUrl.pathname === '/'
+    ) {
+      if (user.role === 'craftizen') {
+        return NextResponse.redirect(new URL('/craftizen/home', request.url));
+      }
+      if (user.role === 'artisan') {
+        return NextResponse.redirect(new URL('/artisan/home', request.url));
+      }
+    }
+
+    // Allow access to protected routes
     return NextResponse.next();
   } catch {
-    return NextResponse.redirect(new URL('/auth/login', request.url));
+    // Invalid token, redirect to login
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 }
 

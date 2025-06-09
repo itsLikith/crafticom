@@ -6,7 +6,7 @@ import { SquareArrowOutUpRightIcon } from 'lucide-react';
 export default function ExploreButton() {
   const router = useRouter();
   const handleClick = () => {
-    router.push('/auth/login');
+    router.push('/login');
   };
   return (
     <Button variant="secondary" onClick={handleClick}>

@@ -26,10 +26,16 @@ export async function POST(req: Request) {
       { message: 'User created successfully' },
       { status: 201 },
     );
-  } catch (error: any) {
-    console.error(error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: 'Internal Server Error', details: error.message },
+        { status: 500 },
+      );
+    }
     return NextResponse.json(
-      { error: 'Internal Server Error', details: error.message },
+      { error: 'Internal Server Error' },
       { status: 500 },
     );
   }

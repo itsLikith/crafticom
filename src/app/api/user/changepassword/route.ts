@@ -6,23 +6,29 @@ import argon2 from 'argon2';
 export async function PATCH(req: Request) {
   await dbConnect();
   const { email, newpassword } = await req.json();
-    try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return NextResponse.json(
-                { error: 'User does not exist' },
-                { status: 404 },
-            );
-        }
-        const hashedPassword = await argon2.hash(newpassword);
-        user.password = hashedPassword;
-        await user.save();
-        return NextResponse.json({ message: 'Password updated successfully' });
-    } catch (error: any) {
-        console.error(error);
-        return NextResponse.json(
-            { error: 'Internal Server Error', details: error.message },
-            { status: 500 },
-        );
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User does not exist' },
+        { status: 404 },
+      );
     }
+    const hashedPassword = await argon2.hash(newpassword);
+    user.password = hashedPassword;
+    await user.save();
+    return NextResponse.json({ message: 'Password updated successfully' });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error);
+      return NextResponse.json(
+        { error: 'Internal Server Error', details: error.message },
+        { status: 500 },
+      );
+    }
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    );
+  }
 }
