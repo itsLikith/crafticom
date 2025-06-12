@@ -33,20 +33,20 @@ export default async function middleware(request: NextRequest) {
         user.role === 'artisan' && pathname.startsWith('/craftizen');
 
       if (isCraftizenAccessingArtisan || isArtisanAccessingCraftizen) {
-        return NextResponse.redirect(new URL('/login', request.url));
+        return NextResponse.redirect(new URL('/', request.url));
       }
 
       return NextResponse.next();
     }
 
     if (isProtectedRoute) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
 
     return NextResponse.next();
   } catch (error) {
     console.error('Token verification failed:', error);
-    const response = NextResponse.redirect(new URL('/login', request.url));
+    const response = NextResponse.redirect(new URL('/', request.url));
     response.cookies.delete('token');
     return response;
   }
