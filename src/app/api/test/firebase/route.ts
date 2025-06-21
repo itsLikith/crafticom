@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { initializeApp, getApps } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -20,11 +19,6 @@ if (!getApps().length) {
 
 export async function GET() {
   try {
-    // Try to get Firestore instance to test config
-    const db = getFirestore(app);
-    // Optionally, try a simple operation (like listing collections)
-    // await listCollections(db); // Uncomment if you want a real test
-
     return NextResponse.json({
       success: true,
       message: 'Firebase configuration is working.',

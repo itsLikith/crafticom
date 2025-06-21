@@ -8,7 +8,6 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendEmailVerification,
 } from 'firebase/auth';
 import { auth, db } from '../../../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
