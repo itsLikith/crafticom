@@ -31,7 +31,6 @@ export default function LoginForm() {
       );
       const user = userCredential.user;
       console.log('User logged in:', user);
-      window.location.href = '/craftizen/home';
       if (user.emailVerified) {
         console.log('Email is verified.');
       } else {

@@ -10,11 +10,8 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-let app: ReturnType<typeof initializeApp>;
 if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApps()[0];
+  initializeApp(firebaseConfig);
 }
 
 export async function GET() {
