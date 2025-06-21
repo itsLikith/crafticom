@@ -11,7 +11,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-let app: any;
+let app: ReturnType<typeof initializeApp>;
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
 } else {

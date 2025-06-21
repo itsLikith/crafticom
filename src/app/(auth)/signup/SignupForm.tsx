@@ -19,7 +19,7 @@ export default function SignupForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -29,11 +29,18 @@ export default function SignupForm() {
         email,
         password,
       );
-      const user = userCredential.user;
-      await sendEmailVerification(user);
-      setError('Verification email sent. Please check your inbox.');
-    } catch (error: any) {
-      setError(error.message || 'Signup failed.');
+      // Store user info and role in Firestore
+      await setDoc(doc(db, 'users', userCredential.user.uid), {
+        email,
+        role: 'craftizen',
+      });
+      window.location.href = '/craftizen/home';
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message || 'Signup failed.');
+      } else {
+        setError('Signup failed.');
+      }
     } finally {
       setLoading(false);
     }
@@ -49,16 +56,20 @@ export default function SignupForm() {
       await setDoc(
         doc(db, 'users', result.user.uid),
         {
-          // name and phone removed
+          name: result.user.displayName || '',
           email: result.user.email || '',
+          phone: result.user.phoneNumber || '',
           role: 'craftizen',
-          emailVerified: result.user.emailVerified || false,
         },
         { merge: true },
       );
       window.location.href = '/craftizen/home';
-    } catch (error: any) {
-      setError(error.message || 'Failed to sign up with Google');
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message || 'Failed to sign up with Google');
+      } else {
+        setError('Failed to sign up with Google');
+      }
     } finally {
       setLoading(false);
     }

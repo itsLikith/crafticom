@@ -19,7 +19,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -34,12 +34,15 @@ export default function LoginForm() {
       window.location.href = '/craftizen/home';
       if (user.emailVerified) {
         console.log('Email is verified.');
-
       } else {
         console.log('Email not verified.');
       }
-    } catch (error: any) {
-      setError(error.message || 'Login failed. Please check your credentials.');
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message || 'Login failed. Please check your credentials.');
+      } else {
+        setError('Login failed. Please check your credentials.');
+      }
     } finally {
       setLoading(false);
     }
@@ -72,8 +75,12 @@ export default function LoginForm() {
       } else {
         window.location.href = '/craftizen/home';
       }
-    } catch (error: any) {
-      setError(error.message || 'Failed to login with Google');
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message || 'Failed to login with Google');
+      } else {
+        setError('Failed to login with Google');
+      }
     } finally {
       setLoading(false);
     }
