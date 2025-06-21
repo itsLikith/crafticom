@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { verifyToken } from '../../../../../lib/jwt';
-import User from '../../../../../models/User';  // Add this import
+import User from '../../../../../models/User'; // Add this import
 
 export async function PATCH(req: NextRequest) {
   const token =
@@ -10,7 +10,7 @@ export async function PATCH(req: NextRequest) {
   if (!token) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
-  
+
   try {
     const decodedToken = await verifyToken(token);
     if (!decodedToken) {
@@ -25,21 +25,22 @@ export async function PATCH(req: NextRequest) {
 
     // Toggle between craftizen and artisan roles
     const newRole = user.role === 'craftizen' ? 'artisan' : 'craftizen';
-    
+
     // Update the user's role
-    await User.updateOne(
-      { _id: user._id },
-      { $set: { role: newRole } }
+    await User.updateOne({ _id: user._id }, { $set: { role: newRole } });
+
+    return NextResponse.json(
+      {
+        message: 'Role updated successfully',
+        newRole: newRole,
+      },
+      { status: 200 },
     );
-
-    return NextResponse.json({ 
-      message: 'Role updated successfully',
-      newRole: newRole 
-    }, { status: 200 });
-
   } catch (error) {
     console.error('Error changing role:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  }    
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
+  }
 }
-

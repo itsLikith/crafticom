@@ -4,9 +4,65 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import Crafticom from '../../Crafticom.png';
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification,
+} from 'firebase/auth';
+import { auth, db } from '../../../lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function SignupForm() {
-  const [countryCode, setCountryCode] = useState('+91');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+      await sendEmailVerification(user);
+      setError('Verification email sent. Please check your inbox.');
+    } catch (error: any) {
+      setError(error.message || 'Signup failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      // Store user info and role in Firestore (if new user)
+      await setDoc(
+        doc(db, 'users', result.user.uid),
+        {
+          // name and phone removed
+          email: result.user.email || '',
+          role: 'craftizen',
+          emailVerified: result.user.emailVerified || false,
+        },
+        { merge: true },
+      );
+      window.location.href = '/craftizen/home';
+    } catch (error: any) {
+      setError(error.message || 'Failed to sign up with Google');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -32,48 +88,8 @@ export default function SignupForm() {
         <br />
         from passionate artisans.
       </p>
-      <form className="space-y-4 mt-2 w-full">
-        <div>
-          <label
-            htmlFor="fullname"
-            className="text-lg font-bold text-[#c97b4d] block mb-1"
-          >
-            Full Name
-          </label>
-          <input
-            id="fullname"
-            type="text"
-            placeholder="Enter your Full Name"
-            className="w-full px-4 py-3 border border-[#c97b4d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c97b4d] bg-transparent text-base"
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="phone"
-            className="text-lg font-bold text-[#c97b4d] block mb-1"
-          >
-            Phone number
-          </label>
-          <div className="flex">
-            <select
-              value={countryCode}
-              onChange={(e) => setCountryCode(e.target.value)}
-              className="px-2 py-3 border border-[#c97b4d] rounded-l-lg bg-transparent focus:outline-none focus:ring-2 focus:ring-[#c97b4d] text-base"
-              style={{ minWidth: '70px' }}
-            >
-              <option value="+91">+91</option>
-              <option value="+1">+1</option>
-              <option value="+44">+44</option>
-              {/* Add more country codes as needed */}
-            </select>
-            <input
-              id="phone"
-              type="tel"
-              placeholder="Enter your phone number"
-              className="w-full px-4 py-3 border-t border-b border-r border-[#c97b4d] rounded-r-lg focus:outline-none focus:ring-2 focus:ring-[#c97b4d] bg-transparent text-base"
-            />
-          </div>
-        </div>
+      <form className="space-y-4 mt-2 w-full" onSubmit={handleSubmit}>
+        {/* Name and Phone fields removed */}
         <div>
           <label
             htmlFor="email"
@@ -86,6 +102,9 @@ export default function SignupForm() {
             type="email"
             placeholder="Enter your email ID"
             className="w-full px-4 py-3 border border-[#c97b4d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c97b4d] bg-transparent text-base"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         <div>
@@ -100,13 +119,20 @@ export default function SignupForm() {
             type="password"
             placeholder="Create your Password"
             className="w-full px-4 py-3 border border-[#c97b4d] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#c97b4d] bg-transparent text-base"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
+        {error && (
+          <div className="text-red-500 text-center font-medium">{error}</div>
+        )}
         <button
           type="submit"
           className="w-full bg-[#c97b4d] hover:bg-[#b06a3d] text-white text-lg font-bold rounded-xl py-2 mt-2 transition-colors"
+          disabled={loading}
         >
-          Sign Up
+          {loading ? 'Signing up...' : 'Sign Up'}
         </button>
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-[#c97b4d]" />
@@ -115,9 +141,11 @@ export default function SignupForm() {
         </div>
         <button
           type="button"
+          onClick={handleGoogleSignup}
+          disabled={loading}
           className="w-full flex items-center justify-center gap-2 bg-[#c97b4d] hover:bg-[#b06a3d] text-white font-bold text-lg rounded-xl py-2 transition-colors"
         >
-          Login with Google
+          {loading ? 'Processing...' : 'Login with Google'}
           <span className="ml-2">
             <svg width="22" height="22" viewBox="0 0 48 48">
               <g>

@@ -4,7 +4,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import Crafticom from '../../Crafticom.png';
-import axios from 'axios';
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
+import { auth, db } from '../../../lib/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -17,52 +23,57 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      const response = await axios.post('/api/auth/login', {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
         email,
         password,
-        remember,
-      });
+      );
+      const user = userCredential.user;
+      console.log('User logged in:', user);
+      window.location.href = '/craftizen/home';
+      if (user.emailVerified) {
+        console.log('Email is verified.');
 
-      console.log('Login response:', response.data);
-
-      // Check user role and redirect accordingly
-      if (response.data?.user?.role === 'craftizen') {
-        console.log('Redirecting to craftizen home...');
-        // Use window.location.href for hard redirect
-        window.location.href = '/craftizen/home';
-      } else if (response.data?.user?.role === 'artisan') {
-        console.log('Redirecting to artisan home...');
-        // Use window.location.href for hard redirect
-        window.location.href = '/artisan/home';
       } else {
-        setError('Invalid user role received');
+        console.log('Email not verified.');
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data?.message ||
-            'Login failed. Please check your credentials.',
-        );
-      } else {
-        setError('An unexpected error occurred.');
-      }
-      console.error('Login error:', error);
+    } catch (error: any) {
+      setError(error.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError('');
     try {
-      setLoading(true);
-      // Implement Google login logic here
-      const response = await axios.get('/api/auth/google');
-      window.location.href = response.data.url;
-    } catch (error) {
-      setError('Failed to initialize Google login');
-      console.error('Google login error:', error);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      // Ensure user doc exists in Firestore
+      await setDoc(
+        doc(db, 'users', result.user.uid),
+        {
+          name: result.user.displayName || '',
+          email: result.user.email || '',
+          phone: result.user.phoneNumber || '',
+          role: 'craftizen', // Default role, you can make this dynamic
+        },
+        { merge: true },
+      );
+      // Fetch user role
+      const userDoc = await getDoc(doc(db, 'users', result.user.uid));
+      const userRole = userDoc.data()?.role;
+      if (userRole === 'admin') {
+        window.location.href = '/admin/home';
+      } else if (userRole === 'artisan') {
+        window.location.href = '/artisan/home';
+      } else {
+        window.location.href = '/craftizen/home';
+      }
+    } catch (error: any) {
+      setError(error.message || 'Failed to login with Google');
     } finally {
       setLoading(false);
     }

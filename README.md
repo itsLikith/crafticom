@@ -5,18 +5,21 @@ Crafticom is a modern e-commerce platform designed to connect artisans with craf
 ## Features
 
 - **User Authentication**
+
   - Secure signup and login system
   - Role-based access (Craftizen, Artisan, Admin)
   - Password recovery functionality
   - Phone number and email verification
 
 - **Artisan Features**
+
   - Personalized artisan profiles
   - Product management system
   - Custom storefront customization
   - Order management
 
 - **Customer Features (Craftizen)**
+
   - Product discovery and browsing
   - User profiles
   - Shopping cart functionality
@@ -29,6 +32,7 @@ Crafticom is a modern e-commerce platform designed to connect artisans with craf
 ## Tech Stack
 
 - **Frontend**
+
   - Next.js 15.3.3
   - React 19
   - Tailwind CSS
@@ -36,6 +40,7 @@ Crafticom is a modern e-commerce platform designed to connect artisans with craf
   - TypeScript
 
 - **Backend**
+
   - Next.js API Routes
   - MongoDB with Mongoose
   - JWT Authentication
@@ -58,17 +63,20 @@ Crafticom is a modern e-commerce platform designed to connect artisans with craf
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone [repository-url]
    cd crafticom
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Create a `.env.local` file in the root directory with the following variables:
+
    ```
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
@@ -106,7 +114,6 @@ npm start
 5. Open a Pull Request
 
 ## License
-
 
 ## Acknowledgments
 
