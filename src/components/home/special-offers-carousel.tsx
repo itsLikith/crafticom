@@ -1,26 +1,24 @@
-'use client';
+"use client"
 
-import * as React from 'react';
-import Autoplay from 'embla-carousel-autoplay';
+import * as React from "react"
+import Autoplay from "embla-carousel-autoplay"
 
-import { Card, CardContent } from '../../../components/ui/card';
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '../../../components/ui/carousel';
+} from "../../components/ui/carousel"
 
-export default function CarouselPlugin() {
+export function CarouselPlugin() {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true }),
-  );
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  )
 
   return (
     <Carousel
       plugins={[plugin.current]}
-      className="w-full max-w-xl transition-all duration-300 px-4"
+      className="w-full max-w-xs"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
@@ -37,8 +35,6 @@ export default function CarouselPlugin() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="left-2" />
-      <CarouselNext className="right-2" />
     </Carousel>
-  );
+  )
 }

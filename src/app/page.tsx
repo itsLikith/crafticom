@@ -15,10 +15,11 @@ export default function LandingPage() {
             '@type': 'SearchAction',
             target: {
               '@type': 'EntryPoint',
-              urlTemplate: 'https://crafticom.com/search?q={search_term_string}'
+              urlTemplate:
+                'https://crafticom.com/search?q={search_term_string}',
             },
-            'query-input': 'required name=search_term_string'
-          }
+            'query-input': 'required name=search_term_string',
+          },
         })}
       </Script>
       <div className="landing-page h-screen w-full overflow-y-scroll bg-white">
@@ -94,8 +95,8 @@ export default function LandingPage() {
             Exciting Features
           </h1>
           <p className="mt-3 text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
-            Discover the unique elements that make our platform stand out from the
-            rest!
+            Discover the unique elements that make our platform stand out from
+            the rest!
           </p>
           <div className="mt-4 flex flex-col md:flex-row gap-4 flex-wrap">
             <div className="rounded-md p-6 bg-gray-100 min-w-[220px] flex-1 shadow">
@@ -141,11 +142,11 @@ export default function LandingPage() {
           </h1>
           <p className="mt-3 text-base md:text-lg text-gray-700">
             Empower artisans to create personalized pages showcasing their
-            products and brand identity. Highlight their craftsmanship and unique
-            stories through a seamless interface that captivates buyers. The
-            platform supports storytelling, secure payments, and user feedback,
-            fostering a strong emotional and commercial connection between
-            artisans and buyers.
+            products and brand identity. Highlight their craftsmanship and
+            unique stories through a seamless interface that captivates buyers.
+            The platform supports storytelling, secure payments, and user
+            feedback, fostering a strong emotional and commercial connection
+            between artisans and buyers.
           </p>
         </div>
         <div className="p-6 md:p-10">

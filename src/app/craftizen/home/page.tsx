@@ -1,25 +1,12 @@
-import React from 'react';
-import {
-  SidebarProvider,
-  SidebarTrigger,
-} from '../../../components/ui/sidebar';
-import { AppSidebar } from './app-sidebar';
-import Carousel from './carousel';
+import {CarouselPlugin} from "../../../components/home/special-offers-carousel";
 
 export default function Page() {
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen">
-        <AppSidebar />
-        <main className="flex-1 relative transition-all duration-300">
-          <div className="absolute top-4 left-4 z-10">
-            <SidebarTrigger />
-          </div>
-          <div className="w-full h-full flex items-center justify-center">
-            <Carousel />
-          </div>
-        </main>
-      </div>
-    </SidebarProvider>
+    <div className="p-6">
+      <span className="text-2xl flex font-bold mb-4 text-[#DD6E45]">
+        Unleash your creativity with unique handmade products
+      </span>
+      <CarouselPlugin />
+    </div>
   );
 }

@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import Crafticom from '../../Crafticom.png';
-import axios from 'axios';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -12,65 +11,72 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const mightRemoveLater = false; // Placeholder for future feature toggle
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError('');
 
-    try {
-      const response = await axios.post('/api/auth/login', {
-        email,
-        password,
-        remember,
-      });
+  //   try {
+  //     const response = await axios.post('/api/auth/login', {
+  //       email,
+  //       password,
+  //       remember,
+  //     });
 
-      console.log('Login response:', response.data);
+  //     console.log('Login response:', response.data);
 
-      // Check user role and redirect accordingly
-      if (response.data?.user?.role === 'craftizen') {
-        console.log('Redirecting to craftizen home...');
-        // Use window.location.href for hard redirect
-        window.location.href = '/craftizen/home';
-      } else if (response.data?.user?.role === 'artisan') {
-        console.log('Redirecting to artisan home...');
-        // Use window.location.href for hard redirect
-        window.location.href = '/artisan/home';
-      } else {
-        setError('Invalid user role received');
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(
-          error.response?.data?.message ||
-            'Login failed. Please check your credentials.',
-        );
-      } else {
-        setError('An unexpected error occurred.');
-      }
-      console.error('Login error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // Check user role and redirect accordingly
+  //     if (response.data?.user?.role === 'craftizen') {
+  //       console.log('Redirecting to craftizen home...');
+  //       // Use window.location.href for hard redirect
+  //       window.location.href = '/craftizen/home';
+  //     } else if (response.data?.user?.role === 'artisan') {
+  //       console.log('Redirecting to artisan home...');
+  //       // Use window.location.href for hard redirect
+  //       window.location.href = '/artisan/home';
+  //     } else {
+  //       setError('Invalid user role received');
+  //     }
+  //   } catch (error) {
+  //     if (axios.isAxiosError(error)) {
+  //       setError(
+  //         error.response?.data?.message ||
+  //           'Login failed. Please check your credentials.',
+  //       );
+  //     } else {
+  //       setError('An unexpected error occurred.');
+  //     }
+  //     console.error('Login error:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleGoogleLogin = async () => {
-    try {
-      setLoading(true);
-      // Implement Google login logic here
-      const response = await axios.get('/api/auth/google');
-      window.location.href = response.data.url;
-    } catch (error) {
-      setError('Failed to initialize Google login');
-      console.error('Google login error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     setLoading(true);
+  //     // Implement Google login logic here
+  //     const response = await axios.get('/api/auth/google');
+  //     window.location.href = response.data.url;
+  //   } catch (error) {
+  //     setError('Failed to initialize Google login');
+  //     console.error('Google login error:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col items-center w-full">
       {/* Logo */}
+      {
+        (mightRemoveLater) && (
+          setLoading(true),
+          setError('This feature is under development. Please check back later.')
+        )
+      }
       <div className="flex items-center mb-4">
         <div className="mb-2 w-full flex justify-center">
           <Image
@@ -90,7 +96,7 @@ export default function LoginForm() {
       <p className="text-center text-[#a97b4d] mb-6">
         Glad to see you again. Select method to log in
       </p>
-      <form className="space-y-4 mt-2 w-full" onSubmit={handleSubmit}>
+      <form className="space-y-4 mt-2 w-full">
         <div>
           <label
             htmlFor="email"
@@ -165,7 +171,6 @@ export default function LoginForm() {
         </div>
         <button
           type="button"
-          onClick={handleGoogleLogin}
           disabled={loading}
           className="w-full flex items-center justify-center gap-2 bg-[#c97b4d] hover:bg-[#b06a3d] text-white font-bold text-lg rounded-xl py-2 transition-colors"
         >
