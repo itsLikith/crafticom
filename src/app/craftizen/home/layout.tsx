@@ -1,5 +1,5 @@
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { AppSidebar } from '../../../components/home/app-sidebar';
+import { AppSidebar } from '../../../components/home/craftizen-sidebar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

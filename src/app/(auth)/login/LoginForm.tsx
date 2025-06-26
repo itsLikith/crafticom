@@ -71,12 +71,11 @@ export default function LoginForm() {
   return (
     <div className="flex flex-col items-center w-full">
       {/* Logo */}
-      {
-        (mightRemoveLater) && (
-          setLoading(true),
-          setError('This feature is under development. Please check back later.')
-        )
-      }
+      {mightRemoveLater &&
+        (setLoading(true),
+        setError(
+          'This feature is under development. Please check back later.',
+        ))}
       <div className="flex items-center mb-4">
         <div className="mb-2 w-full flex justify-center">
           <Image

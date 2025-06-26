@@ -1,19 +1,26 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import Autoplay from "embla-carousel-autoplay"
+import Image from 'next/image';
+import * as React from 'react';
+import Autoplay from 'embla-carousel-autoplay';
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-} from "../../components/ui/carousel"
+} from '../../components/ui/carousel';
 
-export function CarouselPlugin() {
+export function SpecialOffersCarousel() {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
-  )
+    Autoplay({ delay: 2000, stopOnInteraction: true }),
+  );
+
+  const images = [
+    { url: '/background.png', alt: 'Project 1' },
+    { url: '/background.png', alt: 'Project 2' },
+    { url: '/background.png', alt: 'Project 3' },
+  ];
 
   return (
     <Carousel
@@ -23,18 +30,18 @@ export function CarouselPlugin() {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
+        {images.map((image, index) => (
           <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
+            <Image
+              src={image.url}
+              alt={image.alt}
+              width={300}
+              height={300}
+              style={{ objectFit: 'cover' }}
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
     </Carousel>
-  )
+  );
 }
