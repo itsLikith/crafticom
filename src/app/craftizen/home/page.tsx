@@ -10,7 +10,7 @@ export default function Page() {
       </span>
       <hr className='mb-4' />
       <div className="justify-center mb-10">
-        <span className="text-2xl flex font-bold mb-4 text-[#DD6E45]">Today's special offers</span>
+        <span className="text-2xl flex font-bold mb-4 text-[#DD6E45]">Today&apos;s special offers</span>
         <SpecialOffersCarousel />
       </div>
       <div className="famous-artisans mb-10">

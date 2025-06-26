@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import Image from 'next/image';
 import { Card, CardContent } from '../ui/card';
 import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel';
 import { Button } from '../ui/button';
@@ -54,7 +55,7 @@ export function FamousArtisansCarousel() {
             >
               <Card className="hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="flex flex-col items-center p-6 space-y-4 text-center">
-                  <img
+                  <Image
                     src={artisan.profilePic}
                     alt={`Profile of ${artisan.name}`}
                     className="w-24 h-24 rounded-full object-cover shadow"
