@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '../../components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 type User = {
   name: string;
