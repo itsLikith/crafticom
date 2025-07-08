@@ -88,13 +88,7 @@ export function FamousArtisansCarousel() {
                     <div className="flex-1 mb-6 sm:mb-8">
                       <blockquote className="text-sm sm:text-base lg:text-lg text-gray-700 italic leading-relaxed font-medium min-h-[120px] sm:min-h-[140px] flex items-center">
                         <span className="relative">
-                          <span className="text-4xl text-orange-300 absolute -top-2 -left-2">
-                            `&quot;`,
-                          </span>
                           {artisan.about}
-                          <span className="text-4xl text-orange-300 absolute -bottom-4 -right-1">
-                            `&quot;`,
-                          </span>
                         </span>
                       </blockquote>
                     </div>
