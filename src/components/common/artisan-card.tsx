@@ -1,10 +1,8 @@
 'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 
-export default function ArtisanCard(
-
-) {
+export function ArtisanCard() {
   const handleViewProfile = () => {};
 
   return (
@@ -23,7 +21,10 @@ export default function ArtisanCard(
           ante sit amet tellus ornare tincidunt.
         </p>
         <div className="flex justify-between items-center mt-4">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400" onClick={handleViewProfile}>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onClick={handleViewProfile}
+          >
             View Profile
           </button>
         </div>
