@@ -52,6 +52,7 @@ export default async function middleware(request: NextRequest) {
   }
 }
 
+// This configuration applies the middleware to specific routes if removed can access all routes
 export const config = {
-  matcher: ['/artisan/:path*', '/admin/:path*', '/login', '/signup', '/'],
+  matcher: ['/admin/:path*', '/login', '/signup', '/'],
 };

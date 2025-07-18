@@ -66,12 +66,16 @@ export function FamousArtisansCarousel() {
                 <div className="flex flex-col lg:flex-row items-stretch bg-[#23293a] border border-[#23293a] rounded-xl shadow-sm h-full min-h-[320px] sm:min-h-[360px] lg:min-h-[380px] overflow-hidden group transition-all duration-500 hover:-translate-y-2 relative max-w-3xl xl:max-w-2xl 2xl:max-w-xl mx-auto">
                   {/* Profile Image */}
                   <div className="relative w-full lg:w-1/2 flex-shrink-0">
-                    <Image
-                      className="object-cover w-full h-48 sm:h-56 md:h-64 lg:h-auto lg:min-h-full rounded-t-xl lg:rounded-none lg:rounded-s-xl"
-                      src={artisan.profilePic}
-                      alt={`Profile of ${artisan.name}`}
-                      loading="lazy"
-                    />
+                    <div className="relative h-48 sm:h-56 md:h-64 lg:h-full w-full">
+                      <Image
+                        fill
+                        className="object-cover rounded-t-xl lg:rounded-none lg:rounded-s-xl"
+                        src={artisan.profilePic}
+                        alt={`Profile of ${artisan.name}`}
+                        loading="lazy"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                      />
+                    </div>
                   </div>
 
                   <div className="flex flex-col justify-center p-4 sm:p-6 lg:p-6 xl:p-6 flex-1 text-left bg-transparent">
