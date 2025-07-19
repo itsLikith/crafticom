@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
-import Crafticom from '../../Crafticom.png';
 
 export default function SignupForm() {
   const [countryCode, setCountryCode] = useState('+91');
@@ -14,7 +13,7 @@ export default function SignupForm() {
       <div className="flex items-center mb-2">
         <div className="mb-2 w-full flex justify-center">
           <Image
-            src={Crafticom}
+            src='/assets/authpage/crafticom.png'
             alt="Crafticom Logo"
             width={200}
             height={50}

@@ -9,8 +9,6 @@ import {
 } from '../../../components/ui/alert';
 import Image from 'next/image';
 
-import Crafticom from '../../Crafticom.png';
-
 export default function ForgotPasswordForm() {
   const [step, setStep] = useState<'email' | 'otp' | 'reset'>('email');
   const [email, setEmail] = useState('');
@@ -66,7 +64,7 @@ export default function ForgotPasswordForm() {
       {/* Logo */}
       <div className="mb-2 w-full flex justify-center">
         <Image
-          src={Crafticom}
+          src='/assets/authpage/crafticom.png'
           alt="Crafticom Logo"
           width={200}
           height={50}
