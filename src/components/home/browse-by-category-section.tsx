@@ -4,11 +4,11 @@ export function BrowseByCategorySection() {
   // Define category data for better maintainability
   const categories = [
     { id: 1, name: 'Tailoring', image: '/assets/crafts/tailoring.png' },
-    { id: 2, name: 'Pottery', image: '/assets/crafts/tailoring.png' },
-    { id: 3, name: 'Woodwork', image: '/assets/crafts/tailoring.png' },
-    { id: 4, name: 'Jewelry', image: '/assets/crafts/tailoring.png' },
-    { id: 5, name: 'Textiles', image: '/assets/crafts/tailoring.png' },
-    { id: 6, name: 'Metalwork', image: '/assets/crafts/tailoring.png' },
+    { id: 2, name: 'Arts', image: '/assets/crafts/arts.png' },
+    { id: 3, name: 'Food', image: '/assets/crafts/food.png' },
+    { id: 4, name: 'Gifts', image: '/assets/crafts/gifts.png' },
+    { id: 5, name: 'Home Decor', image: '/assets/crafts/homedecor.png' },
+    { id: 6, name: 'Kids', image: '/assets/crafts/kids.png' },
   ];
 
   return (
