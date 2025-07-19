@@ -1,15 +1,40 @@
+'use client';
+
 import Image from 'next/image';
+import axios from 'axios';
+import React from 'react';
+import Link from 'next/link';
+
+interface Category {
+  id: number;
+  name: string;
+  image: string;
+  slug: string;
+}
 
 export function BrowseByCategorySection() {
-  // Define category data for better maintainability
-  const categories = [
-    { id: 1, name: 'Tailoring', image: '/assets/crafts/tailoring.png' },
-    { id: 2, name: 'Arts', image: '/assets/crafts/arts.png' },
-    { id: 3, name: 'Food', image: '/assets/crafts/food.png' },
-    { id: 4, name: 'Gifts', image: '/assets/crafts/gifts.png' },
-    { id: 5, name: 'Home Decor', image: '/assets/crafts/homedecor.png' },
-    { id: 6, name: 'Kids', image: '/assets/crafts/kids.png' },
-  ];
+  const [categories, setCategories] = React.useState<Category[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await axios.get<Category[]>(
+          '/api/craftizen/categories',
+        );
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setError('Failed to load categories. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <section className="text-center mb-8 sm:mb-12 md:mb-16 lg:mb-20 xl:mb-24">

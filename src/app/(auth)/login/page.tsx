@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import LoginForm from './LoginForm';
-import LoginImage from './login.png';
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[url('/background.png')] bg-cover bg-center bg-no-repeat px-2 py-6">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[url('/assets/authpage/background.png')] bg-cover bg-center bg-no-repeat px-2 py-6">
       <div className="w-full max-w-4xl bg-gradient-to-br from-[#ffe5d0] to-[#fff7ef] rounded-3xl shadow-2xl flex flex-col md:flex-row items-stretch overflow-hidden">
         {/* Left: Form */}
         <div className="flex-1 flex flex-col justify-center px-6 py-8 md:px-12">
@@ -15,7 +14,7 @@ export default function LoginPage() {
           <div className="relative w-full h-80 flex items-center justify-center">
             <div className="absolute w-[90%] h-[90%] z-10">
               <Image
-                src={LoginImage}
+                src="/assets/authpage/login.png"
                 alt="Craft supplies"
                 fill
                 className="object-cover rounded-[60px]"

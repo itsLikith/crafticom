@@ -36,7 +36,7 @@ export default function LandingPage() {
               <ExploreButton />
             </div>
           </div>
-          <div className="w-1/2 hidden md:flex items-center justify-center bg-white landing-page-image bg-[url('/landing.png')] bg-cover bg-left bg-no-repeat">
+          <div className="w-1/2 hidden md:flex items-center justify-center bg-white landing-page-image bg-[url('/assets/landingpage/landing.png')] bg-cover bg-left bg-no-repeat">
             {/* image here */}
           </div>
         </div>

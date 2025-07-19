@@ -13,9 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://crafticom.vercel.app'),
   title: 'Crafticom - Handcrafted Treasures Marketplace',
   description:
-    'Discover unique handmade products from passionate artisans. Crafticom connects craft enthusiasts with talented artisans offering handmade crafts, home décor, and artisanal food items.',
+    'Discover unique handmade products from passionate artisans. Crafticom connects craft enthusiasts with talented artisans offering handmade crafts.',
   keywords: [
     'handmade crafts',
     'artisan marketplace',
@@ -26,6 +27,20 @@ export const metadata: Metadata = {
     'handmade treasures',
   ],
   authors: [{ name: 'Crafticom Team' }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'YOUR_GOOGLE_SITE_VERIFICATION_ID',
+  },
   openGraph: {
     title: 'Crafticom - Handcrafted Treasures Marketplace',
     description:
@@ -39,21 +54,47 @@ export const metadata: Metadata = {
     title: 'Crafticom - Handcrafted Treasures Marketplace',
     description: 'Discover unique handmade products from passionate artisans',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
+
+// Add JSON-LD structured data
+function JsonLd() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Crafticom',
+          description: 'Handcrafted Treasures Marketplace',
+          url: 'https://crafticom.com',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: {
+              '@type': 'EntryPoint',
+              urlTemplate:
+                'https://crafticom.com/search?q={search_term_string}',
+            },
+            'query-input': 'required name=search_term_string',
+          },
+        }),
+      }}
+    />
+  );
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
+      <head>
+        <JsonLd />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         {children}
       </body>
