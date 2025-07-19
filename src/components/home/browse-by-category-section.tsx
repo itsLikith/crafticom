@@ -2,8 +2,7 @@
 
 import Image from 'next/image';
 import axios from 'axios';
-import React from 'react';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 interface Category {
   id: number;
@@ -13,14 +12,13 @@ interface Category {
 }
 
 export function BrowseByCategorySection() {
-  const [categories, setCategories] = React.useState<Category[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
-        setIsLoading(true);
         setError(null);
         const response = await axios.get<Category[]>(
           '/api/craftizen/categories',
@@ -34,7 +32,7 @@ export function BrowseByCategorySection() {
       }
     };
     fetchCategories();
-  }, []);
+  }, [isLoading]);
 
   return (
     <section className="text-center mb-8 sm:mb-12 md:mb-16 lg:mb-20 xl:mb-24">
@@ -54,29 +52,33 @@ export function BrowseByCategorySection() {
           </div>
 
           {/* Categories Grid */}
-          <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-8 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
-            {categories.map((category) => (
-              <div
-                key={category.id}
-                className="group relative bg-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-lg overflow-hidden"
-              >
-                {/* Image Container */}
-                <div className="relative w-full aspect-square overflow-hidden">
-                  <Image
-                    src={category.image}
-                    alt={`${category.name} category`}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, (max-width: 1024px) 200px, (max-width: 1280px) 220px, (max-width: 1536px) 240px, 260px"
-                    loading="lazy"
-                  />
-                </div>
+          {error ? (
+            <p className="text-red-900">Failed to fetch categories</p>
+          ) : (
+            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 2xl:grid-cols-8 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className="group relative bg-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-lg overflow-hidden"
+                >
+                  {/* Image Container */}
+                  <div className="relative w-full aspect-square overflow-hidden">
+                    <Image
+                      src={category.image}
+                      alt={`${category.name} category`}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                      sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, (max-width: 1024px) 200px, (max-width: 1280px) 220px, (max-width: 1536px) 240px, 260px"
+                      loading="lazy"
+                    />
+                  </div>
 
-                {/* Hover Effect Overlay */}
-                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </div>
-            ))}
-          </div>
+                  {/* Hover Effect Overlay */}
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
