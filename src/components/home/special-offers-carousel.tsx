@@ -16,9 +16,9 @@ export function SpecialOffersCarousel() {
   );
 
   const images = [
-    { url: '/background.png', alt: 'Project 1' },
-    { url: '/background.png', alt: 'Project 2' },
-    { url: '/background.png', alt: 'Project 3' },
+    { url: '/assets/test/special-offers/one.png', alt: 'Project 1' },
+    { url: '/assets/test/special-offers/two.png', alt: 'Project 2' },
+    { url: '/assets/test/special-offers/three.png', alt: 'Project 3' },
   ];
 
   return (

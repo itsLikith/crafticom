@@ -1,4 +1,12 @@
-import { Home, ChevronUp, ShoppingCart, Bell, Star } from 'lucide-react';
+import {
+  Home,
+  ChevronUp,
+  ShoppingCart,
+  Bell,
+  Star,
+  Compass,
+} from 'lucide-react';
+
 import {
   Avatar,
   AvatarImage,
@@ -24,27 +32,34 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 
+import Link from 'next/link';
+
 // Menu items.
 const items = [
   {
     title: 'Home',
-    url: '#',
+    url: '/craftizen/home',
     icon: Home,
   },
   {
     title: 'Cart',
-    url: '#',
+    url: '/craftizen/cart',
     icon: ShoppingCart,
   },
   {
     title: 'Notifications',
-    url: '#',
+    url: '/craftizen/notifications',
     icon: Bell,
   },
   {
     title: 'Featured',
-    url: '#',
+    url: '/craftizen/featured',
     icon: Star,
+  },
+  {
+    title: 'Explore',
+    url: '/craftizen/explore',
+    icon: Compass,
   },
 ];
 
@@ -92,10 +107,14 @@ export function AppSidebar() {
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem>
-                  <span>Profile</span>
+                  <Link href="/craftizen/profile" className="w-full">
+                    <span>Profile</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <span>Settings</span>
+                  <Link href="/craftizen/settings" className="w-full">
+                    <span>Settings</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <span>Logout</span>

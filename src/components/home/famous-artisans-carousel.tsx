@@ -14,35 +14,21 @@ export function FamousArtisansCarousel() {
       id: 'id-1',
       about:
         'Expert in woodworking and fine furniture with 15+ years of experience creating custom pieces.',
-      profilePic: '/background.png',
+      profilePic: '/assets/test/top-artisans/demo.png',
     },
     {
       name: 'Kenji Yamamoto',
       id: 'id-2',
       about:
         'Master of traditional pottery techniques passed down through generations, specializing in ceramic art.',
-      profilePic: '/background.png',
+      profilePic: '/assets/test/top-artisans/demo.png',
     },
     {
       name: 'Isabella Rodriguez',
       id: 'id-3',
       about:
         'Renowned for hand-woven textiles and contemporary fabric designs with sustainable materials.',
-      profilePic: '/background.png',
-    },
-    {
-      name: 'Ahmed Hassan',
-      id: 'id-4',
-      about:
-        'Creator of custom leather goods with intricate hand-tooled designs and traditional craftsmanship.',
-      profilePic: '/background.png',
-    },
-    {
-      name: 'Emma Thompson',
-      id: 'id-5',
-      about:
-        'Specialist in glassblowing and contemporary glass sculpture art with modern artistic vision.',
-      profilePic: '/background.png',
+      profilePic: '/assets/test/top-artisans/demo.png',
     },
   ];
 

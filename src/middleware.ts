@@ -9,7 +9,9 @@ export default async function middleware(request: NextRequest) {
   const authRoutes = ['/login', '/signup', '/'];
   const isAuthRoute = authRoutes.includes(pathname);
   const isProtectedRoute =
-    pathname.startsWith('/craftizen') || pathname.startsWith('/artisan');
+    pathname.startsWith('/craftizen') ||
+    pathname.startsWith('/artisan') ||
+    pathname.startsWith('/admin');
 
   try {
     if (token) {
@@ -52,7 +54,14 @@ export default async function middleware(request: NextRequest) {
   }
 }
 
-// This configuration applies the middleware to specific routes if removed can access all routes
+// This configuration applies the middleware to specific routes
 export const config = {
-  matcher: ['/admin/:path*', '/login', '/signup', '/'],
+  matcher: [
+    // '/admin/:path*',
+    // '/craftizen/:path*',
+    // '/artisan/:path*',
+    '/login',
+    '/signup',
+    '/',
+  ],
 };

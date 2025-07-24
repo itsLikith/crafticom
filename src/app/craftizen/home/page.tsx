@@ -1,7 +1,7 @@
-import { HeroSection } from '../../../components/home/hero-section';
-import { SpecialOffersSection } from '../../../components/home/special-offers-section';
-import { BrowseByCategorySection } from '../../../components/home/browse-by-category-section';
-import { FamousArtisansSection } from '../../../components/home/famous-artisans-section';
+import { HeroSection } from '@/components/home/hero-section';
+import { SpecialOffersSection } from '@/components/home/special-offers-section';
+import { BrowseByCategorySection } from '@/components/home/browse-by-category-section';
+import { FamousArtisansSection } from '@/components/home/famous-artisans-section';
 
 export default function Page() {
   return (
