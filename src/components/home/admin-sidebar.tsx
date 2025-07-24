@@ -1,17 +1,11 @@
 import {
-  Home,
   ChevronUp,
-  ShoppingCart,
-  Bell,
-  Star,
-  Compass,
+  LayoutDashboard,
+  MessageSquare,
+  OctagonAlert,
 } from 'lucide-react';
 
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from '../../components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 import {
   Sidebar,
@@ -37,29 +31,19 @@ import Link from 'next/link';
 // Menu items.
 const items = [
   {
-    title: 'Home',
-    url: '/craftizen/home',
-    icon: Home,
+    title: 'Dashboard',
+    url: '/admin/dashboard',
+    icon: LayoutDashboard,
   },
   {
-    title: 'Cart',
-    url: '/craftizen/cart',
-    icon: ShoppingCart,
+    title: 'Messages',
+    url: '/admin/messages',
+    icon: MessageSquare,
   },
   {
-    title: 'Notifications',
-    url: '/craftizen/notifications',
-    icon: Bell,
-  },
-  {
-    title: 'Featured',
-    url: '/craftizen/featured',
-    icon: Star,
-  },
-  {
-    title: 'Explore',
-    url: '/craftizen/explore',
-    icon: Compass,
+    title: 'Alerts',
+    url: '/admin/alerts',
+    icon: OctagonAlert,
   },
 ];
 
@@ -76,7 +60,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild isActive={item.title === 'Home'}>
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -107,12 +91,7 @@ export function AppSidebar() {
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem>
-                  <Link href="/craftizen/profile" className="w-full">
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/craftizen/settings" className="w-full">
+                  <Link href="/admin/settings" className="w-full">
                     <span>Settings</span>
                   </Link>
                 </DropdownMenuItem>
