@@ -1,6 +1,8 @@
 {
   "name": "crafticom",
   "version": "0.1.0",
+  "description": "Crafticom - A platform for artisans to showcase and sell their handcrafted items.",
+  "author": "Likith Saragadam",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

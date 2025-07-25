@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '@/lib/api';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 type User = {
@@ -15,7 +15,7 @@ export default function ProfilePic() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await axios.get('/api/me', { withCredentials: true });
+        const res = await api.get('/me');
         setUser(res.data.user);
       } catch (err) {
         console.error('Failed to fetch user:', err);

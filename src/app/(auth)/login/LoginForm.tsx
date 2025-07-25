@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
-import axios from 'axios';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -18,44 +18,53 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    console.log('Submitting login with:', { email, password: '***' });
+
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post('auth/login', {
         email,
         password,
       });
 
-      if (response.data.status === 'success') {
-        Cookies.set('token', response.data.token, {
+      console.log('Login response:', response.data);
+
+      if (response.data.success && response.data.statusCode === 201) {
+        Cookies.set('token', response.data.data.token, {
           expires: remember ? 7 : 1,
         });
-        window.location.href =
-          response.data.data.user.role === 'craftizen'
-            ? '/craftizen/home'
-            : response.data.data.user.role === 'artisan'
-              ? '/artisan/home'
-              : !response.data.data.user.role
-                ? '/'
-                : '/';
-      } else {
-        setError(response.data.message);
-      }
-    } catch (err) {
-      setError('Login failed. Please check your credentials.');
-      console.error('Login error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleGoogleLogin = async () => {
-    try {
-      setLoading(true);
-      // Implement Google login logic here
-      const response = await axios.get('/api/auth/google');
-      window.location.href = response.data.url;
-    } catch (error) {
-      setError('Failed to initialize Google login');
-      console.error('Google login error:', error);
+        // Role-based navigation
+        const userRole = response.data.data.user.role;
+        let redirectUrl = '/';
+
+        if (userRole === 'craftizen') {
+          redirectUrl = '/craftizen/home';
+        } else if (userRole === 'artisan') {
+          redirectUrl = '/artisan/home';
+        } else if (userRole === 'admin') {
+          redirectUrl = '/admin/dashboard';
+        }
+
+        window.location.href = redirectUrl;
+      } else {
+        setError(response.data.message || 'Login failed');
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      if (err.response) {
+        // Server responded with error status
+        setError(
+          err.response.data?.message ||
+            'Login failed. Please check your credentials.',
+        );
+      } else if (err.request) {
+        // Request was made but no response received
+        setError('Network error. Please check your connection and try again.');
+      } else {
+        // Something else happened
+        setError('Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -163,7 +172,6 @@ export default function LoginForm() {
         </div>
         <button
           type="button"
-          onClick={handleGoogleLogin}
           disabled={loading}
           className="w-full flex items-center justify-center gap-2 bg-[#c97b4d] hover:bg-[#b06a3d] text-white font-bold text-lg rounded-xl py-2 transition-colors"
         >

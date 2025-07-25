@@ -55,7 +55,9 @@ export function AppSidebar() {
     >
       <SidebarContent className="bg-[#FFF7F0]">
         <SidebarGroup>
-          <SidebarGroupLabel><Link href='/'>Crafticom</Link></SidebarGroupLabel>
+          <SidebarGroupLabel>
+            <Link href="/">Crafticom</Link>
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

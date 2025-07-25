@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '@/lib/api';
 
 export default function Username() {
   type User = {
@@ -12,7 +12,7 @@ export default function Username() {
   useEffect(() => {
     async function fetchUser() {
       try {
-        const res = await axios.get('/api/me', { withCredentials: true });
+        const res = await api.get('/me');
         setUser(res.data.user);
       } catch (err) {
         console.error('Failed to fetch user:', err);

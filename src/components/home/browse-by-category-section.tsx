@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import axios from 'axios';
+import api from '@/lib/api';
 import { useState, useEffect } from 'react';
 
 interface Category {
@@ -20,9 +20,7 @@ export function BrowseByCategorySection() {
     const fetchCategories = async () => {
       try {
         setError(null);
-        const response = await axios.get<Category[]>(
-          '/api/craftizen/categories',
-        );
+        const response = await api.get<Category[]>('/craftizen/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);

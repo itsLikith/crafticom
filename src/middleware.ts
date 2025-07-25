@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from './lib/jwt';
-import type { JWTPayload } from 'jose';
 
 export default async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
@@ -15,7 +14,7 @@ export default async function middleware(request: NextRequest) {
 
   try {
     if (token) {
-      const user = (await verifyToken(token)) as JWTPayload;
+      const user = await verifyToken(token);
 
       if (isAuthRoute) {
         let redirectUrl = '/';
@@ -33,8 +32,14 @@ export default async function middleware(request: NextRequest) {
         user.role === 'craftizen' && pathname.startsWith('/artisan');
       const isArtisanAccessingCraftizen =
         user.role === 'artisan' && pathname.startsWith('/craftizen');
+      const isNonAdminAccessingAdmin =
+        user.role !== 'admin' && pathname.startsWith('/admin');
 
-      if (isCraftizenAccessingArtisan || isArtisanAccessingCraftizen) {
+      if (
+        isCraftizenAccessingArtisan ||
+        isArtisanAccessingCraftizen ||
+        isNonAdminAccessingAdmin
+      ) {
         return NextResponse.redirect(new URL('/', request.url));
       }
 
@@ -57,9 +62,9 @@ export default async function middleware(request: NextRequest) {
 // This configuration applies the middleware to specific routes
 export const config = {
   matcher: [
-    // '/admin/:path*',
-    // '/craftizen/:path*',
-    // '/artisan/:path*',
+    '/admin/:path*',
+    '/craftizen/:path*',
+    '/artisan/:path*',
     '/login',
     '/signup',
     '/',
