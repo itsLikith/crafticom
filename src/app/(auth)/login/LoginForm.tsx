@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import api from '@/lib/api';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -19,10 +19,8 @@ export default function LoginForm() {
     setLoading(true);
     setError('');
 
-    console.log('Submitting login with:', { email, password: '***' });
-
     try {
-      const response = await axios.post('auth/login', {
+      const response = await api.post('/api/auth/login', {
         email,
         password,
       });
@@ -32,6 +30,9 @@ export default function LoginForm() {
       if (response.data.success && response.data.statusCode === 201) {
         Cookies.set('token', response.data.data.token, {
           expires: remember ? 7 : 1,
+        });
+        Cookies.set('userRole', response.data.data.user.role ,{
+          expires : remember ? 7 : 1,
         });
 
         // Role-based navigation
