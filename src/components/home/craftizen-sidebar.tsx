@@ -109,11 +109,6 @@ export function AppSidebar() {
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem>
-                  <Link href="/craftizen/profile" className="w-full">
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
                   <Link href="/craftizen/settings" className="w-full">
                     <span>Settings</span>
                   </Link>

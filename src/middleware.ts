@@ -72,8 +72,8 @@ export default async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/admin/:path*',
-    '/craftizen/:path*',
-    '/artisan/:path*',
+    // '/craftizen/:path*',
+    // '/artisan/:path*',
     '/login',
     '/signup',
     '/',

@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
-import api from '@/lib/api';
+import axios from 'axios';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -20,22 +19,15 @@ export default function LoginForm() {
     setError('');
 
     try {
-      const response = await api.post('/api/auth/login', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password,
+        remember,
       });
 
       console.log('Login response:', response.data);
 
       if (response.data.success && response.data.statusCode === 201) {
-        Cookies.set('token', response.data.data.token, {
-          expires: remember ? 7 : 1,
-        });
-        Cookies.set('userRole', response.data.data.user.role ,{
-          expires : remember ? 7 : 1,
-        });
-
-        // Role-based navigation
         const userRole = response.data.data.user.role;
         let redirectUrl = '/';
 

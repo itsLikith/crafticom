@@ -10,8 +10,7 @@ interface FeaturedItemCardProps {
     name: string;
     category: string;
     image: string;
-    limitedQuantity: number;
-    totalAvailable: number;
+    time: string;
   };
 }
 
@@ -24,8 +23,7 @@ export function FeaturedItemCard({
     name: 'Earthen Vase',
     category: 'SAWEN',
     image: '/assets/crafts/homedecor.png',
-    limitedQuantity: 5,
-    totalAvailable: 74,
+    time: '2 days',
   },
 }: FeaturedItemCardProps) {
   return (
@@ -75,11 +73,8 @@ export function FeaturedItemCard({
             <div className="flex flex-col items-end space-y-2">
               {/* Stock Info */}
               <div className="text-white text-right">
-                <div className="text-2xl font-bold">
-                  {String(product.limitedQuantity).padStart(2, '0')} /{' '}
-                  {String(product.totalAvailable).padStart(2, '0')}
-                </div>
-                <div className="text-xs text-gray-300">Available</div>
+                <div className="text-2xl font-bold">{product.time}</div>
+                <div className="text-xs text-gray-300">Time Left</div>
               </div>
 
               {/* Shop Now Button */}
