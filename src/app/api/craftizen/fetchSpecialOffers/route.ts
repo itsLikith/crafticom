@@ -1,15 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
 
-interface RequestSpecialOffers {
-  location: string;
-}
-
-export async function POST(params: RequestSpecialOffers) {
+export async function GET(params: { location: string }) {
   try {
     dbConnect();
-    const location = params.location;
+    console.log(params.location);
+
   } catch (error) {
     console.log('Error: ', error);
     return NextResponse.json(

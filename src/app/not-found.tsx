@@ -1,12 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+
 import { Card, CardContent } from '@/components/ui/card';
 import {
-  HomeIcon,
+
   ArrowLeftIcon,
-  SearchIcon,
+
   HelpCircleIcon,
 } from 'lucide-react';
 
@@ -35,7 +35,7 @@ export default function NotFound() {
             Oops! This Page Went Missing
           </h2>
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            It looks like the page you're searching for doesn't exist.
+            It looks like the page you&apos;re searching for doesn&apos;t exist.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export default function NotFound() {
         {/* Footer message */}
         <div className="mt-8 text-center">
           <p className="text-gray-500 text-sm">
-            Lost? Don't worry - every great craft starts with exploring the
+            Lost? Don&apos;t worry - every great craft starts with exploring the
             unknown! ✨
           </p>
         </div>

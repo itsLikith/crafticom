@@ -1,5 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+
+interface LoginResponse {
+  success: boolean;
+  statusCode: number;
+  data: {
+    token: string;
+    user: {
+      role: string;
+      [key: string]: unknown;
+    };
+  };
+  message?: string;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     // Forward the request to your external backend
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-    const response = await axios.post(`${backendUrl}/api/auth/login`, {
+    const response = await axios.post<LoginResponse>(`${backendUrl}/api/auth/login`, {
       email,
       password,
     });
@@ -39,10 +52,10 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json(response.data, { status: 400 });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Login API error:', error);
 
-    if (error.response) {
+    if (error instanceof AxiosError && error.response) {
       return NextResponse.json(
         error.response.data || { message: 'Login failed' },
         { status: error.response.status },

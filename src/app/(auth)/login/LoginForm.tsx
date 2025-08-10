@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export default function LoginForm() {
   const [remember, setRemember] = useState(false);
@@ -43,15 +43,15 @@ export default function LoginForm() {
       } else {
         setError(response.data.message || 'Login failed');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Login error:', err);
-      if (err.response) {
+      if (err instanceof AxiosError && err.response) {
         // Server responded with error status
         setError(
           err.response.data?.message ||
             'Login failed. Please check your credentials.',
         );
-      } else if (err.request) {
+      } else if (err instanceof AxiosError && err.request) {
         // Request was made but no response received
         setError('Network error. Please check your connection and try again.');
       } else {

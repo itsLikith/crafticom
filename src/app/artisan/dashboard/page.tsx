@@ -65,27 +65,6 @@ export default function Page() {
     },
   ]);
 
-  const [topProducts] = useState([
-    {
-      name: 'Ceramic Coffee Mug Set',
-      sales: 45,
-      revenue: 1125,
-      image: '/assets/crafts/homedecor.png',
-    },
-    {
-      name: 'Handmade Jewelry Box',
-      sales: 32,
-      revenue: 960,
-      image: '/assets/crafts/gifts.png',
-    },
-    {
-      name: 'Artisan Throw Pillow',
-      sales: 28,
-      revenue: 840,
-      image: '/assets/crafts/tailoring.png',
-    },
-  ]);
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
@@ -110,7 +89,7 @@ export default function Page() {
                 Artisan Dashboard
               </h1>
               <p className="text-gray-600">
-                Welcome back! Here's what's happening with your craft business.
+                Welcome back! Here&apos;s what&apos;s happening with your craft business.
               </p>
             </div>
             <div className="flex gap-3">

@@ -2,7 +2,7 @@ import {
   Home,
   ChevronUp,
   ShoppingCart,
-  MessagesSquare,
+
   Bell,
 } from 'lucide-react';
 
@@ -32,7 +32,6 @@ import {
 } from '../ui/dropdown-menu';
 
 import Link from 'next/link';
-import { title } from 'process';
 
 // Menu items.
 const items = [
