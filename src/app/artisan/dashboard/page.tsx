@@ -267,10 +267,6 @@ export default function Page() {
                   <span className="text-sm text-gray-600">Reviews</span>
                   <span className="font-semibold">{stats.totalReviews}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Products</span>
-                  <span className="font-semibold">{stats.totalProducts}</span>
-                </div>
               </div>
 
               <Button className="w-full" variant="outline">

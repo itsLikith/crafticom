@@ -1,4 +1,10 @@
-import { Home, ChevronUp, ShoppingCart, MessagesSquare } from 'lucide-react';
+import {
+  Home,
+  ChevronUp,
+  ShoppingCart,
+  MessagesSquare,
+  Bell,
+} from 'lucide-react';
 
 import {
   Avatar,
@@ -36,14 +42,14 @@ const items = [
     icon: Home,
   },
   {
-    title: 'Messages',
-    url: '/artisan/messages',
-    icon: MessagesSquare,
-  },
-  {
     title: 'Orders',
     url: '/artisan/orders',
     icon: ShoppingCart,
+  },
+  {
+    title: 'Notifications',
+    url: '/artisan/notifications',
+    icon: Bell,
   },
 ];
 
@@ -92,11 +98,6 @@ export function AppSidebar() {
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
-                <DropdownMenuItem>
-                  <Link href="/craftizen/profile" className="w-full">
-                    <span>Profile</span>
-                  </Link>
-                </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/craftizen/settings" className="w-full">
                     <span>Settings</span>
